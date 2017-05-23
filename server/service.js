@@ -19,26 +19,24 @@ module.exports = (config) => {
                     return next(err);
                 }
 
-                console.log(config.openWeatherApiKey);
                 const location = geoResult.body.results[0].geometry.location;
-                const timestamp = +moment().format('X');
 
-                request.get('https://maps.googleapis.com/maps/api/timezone/json')
-                    .query({ location: `${location.lat},${location.lng}` })
-                    .query({ timestamp: timestamp })
-                    .query({ key: config.googleTimeApiKey })
-                    .end((err, timeResult) => {
+                request.get(`http://api.openweathermap.org/data/2.5/weather`)
+                
+                    .query({ lat: `${location.lat}` })
+                    .query({ lon: `${location.lng}` })
+                    .query({ APPID: config.openWeatherApiKey })
+                    .end((err, weatherResult) => {
 
                         if (err) {
                             return next(err);
                         }
 
-                        const result = timeResult.body;
+                        const result = weatherResult.body;
+                        const tempInCelsius = (parseFloat(result.main.temp) - 273.15).toFixed(2);
+                        const weatherString = `${result.weather[0].main}. It has ${result.weather[0].description} and ${tempInCelsius}°C.`;
 
-                        const timeString = moment.unix(timestamp + result.dstOffset + result.rawOffset)
-                        .utc().format('dddd, MMMM Do, YYYY, h:mm:ss a');
-
-                        return res.json({result: timeString});
+                        return res.json({result: weatherString});
 
                     })
 
