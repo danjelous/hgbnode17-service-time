@@ -6,19 +6,19 @@ const log = {
 
     development: () => {
         return bunyan.createLogger({
-            name: 'service-time-dev',
+            name: 'service-weather-dev',
             level: 'debug'
         });
     },
     production: () => {
         return bunyan.createLogger({
-            name: 'service-time-prod',
+            name: 'service-weather-prod',
             level: 'info'
         });
     },
     test: () => {
         return bunyan.createLogger({
-            name: 'service-time-test',
+            name: 'service-weather-test',
             level: 'fatal'
         });
     }

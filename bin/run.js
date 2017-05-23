@@ -9,12 +9,12 @@ const server = http.createServer(service);
 server.listen();
 
 server.on('listening', function() {
-    log.info(`Time Service is listening on ${server.address().port} in ${service.get('env')} mode`);
+    log.info(`Weather Service is listening on ${server.address().port} in ${service.get('env')} mode`);
 
     const mainUrl = 'http://127.0.0.1:3000';
 
     const announce = () => {
-        request.put(`${mainUrl}/service/time/${server.address().port}`)
+        request.put(`${mainUrl}/service/weather/${server.address().port}`)
         .end((err) => {
             if(err) log.error(err);
         })
