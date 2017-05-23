@@ -8,8 +8,6 @@ const moment = require('moment');
 module.exports = (config) => {
     const log = config.log();
 
-
-
     service.get('/service/:location', (req, res, next) => {
 
         request.get(`https://maps.googleapis.com/maps/api/geocode/json`)
@@ -21,6 +19,7 @@ module.exports = (config) => {
                     return next(err);
                 }
 
+                console.log(config.openWeatherApiKey);
                 const location = geoResult.body.results[0].geometry.location;
                 const timestamp = +moment().format('X');
 
